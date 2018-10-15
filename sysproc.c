@@ -95,3 +95,32 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_getdate(void) {
+  struct rtcdate *dp;
+  if (argptr(0, (char **)&dp, sizeof(dp)) < 0)
+    return -1;
+  cmostime(dp);
+  return 0;
+}
+
+int
+sys_sleep_sec(void)
+{
+  int n;
+  uint ticks0;
+  struct rtcdate *d0, *dp;
+
+  if(argint(0, &n) < 0)
+    return -1;
+  ticks0 = ticks;
+  while(ticks - ticks0 < n){
+    if(myproc()->killed){
+      return -1;
+    }
+    sleep(&ticks, &tickslock);
+  }
+  return 0;
+}
+
