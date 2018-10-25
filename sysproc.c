@@ -105,6 +105,7 @@ sys_getdate(void) {
   return 0;
 }
 
+int
 sys_sleep_sec(void)
 {
   int n;
