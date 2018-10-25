@@ -111,22 +111,25 @@ sys_sleep_sec(void)
   int n;
   struct rtcdate *t1, *t2;
 
-  t1 = malloc(sizeof(*t1));
-  t2 = malloc(sizeof(*t2));
+  t1 = (struct rtcdate*)kalloc();
+  t2 = (struct rtcdate*)kalloc();
 
   cmostime(t1);
   cmostime(t2);
 
   if (argint(0, &n) < 0)
     return -1;
+  acquire(&tickslock);
   while (cmp_rtc(t1, t2) < n)
   {
     if (myproc()->killed)
     {
+      release(&tickslock);
       return -1;
     }
     sleep(&ticks, &tickslock);
     cmostime(t1);
   }
+  release(&tickslock);
   return 0;
 }
