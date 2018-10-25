@@ -31,4 +31,4 @@ SYSCALL(sleep)
 SYSCALL(uptime)
 SYSCALL(getppid)
 SYSCALL(getdate)
-
+SYSCALL(sleep_sec)

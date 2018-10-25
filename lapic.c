@@ -227,3 +227,33 @@ cmostime(struct rtcdate *r)
   *r = t1;
   r->year += 2000;
 }
+
+int
+rtc_posdate(struct rtcdate *t)
+{
+  int y = t->year;
+  int m = t->month;
+  if (m <= 2) {
+    y--;
+    m += 12;
+  }
+
+  int dy = 365 * (y - 1); // 経過年数×365日
+  int c = y / 100;
+  int dl = (y >> 2) - c + (c >> 2); // うるう年分
+  int dm = (m * 979 - 1033) >> 5;   // 1月1日から m 月1日までの日数
+  return dy + dl + dm + t->day - 1;
+}
+
+int
+cmp_rtc(struct rtcdate *t1, struct rtcdate *t2)
+{
+  int d1 = rtc_posdate(t1);
+  int d2 = rtc_posdate(t2);
+
+  int diffsec = (t1->hour - t2->hour) * 60;
+  diffsec = (diffsec + t1->minute - t2->minute) * 60;
+  diffsec = diffsec + t1->second - t2->second;
+
+  return diffsec + (d1 - d2) * 86400;
+}
