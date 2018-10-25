@@ -111,6 +111,9 @@ sys_sleep_sec(void)
   int n;
   struct rtcdate *t1, *t2;
 
+  if (argptr(0, (char **)&t1, sizeof(t1)) < 0 || argptr(0, (char **)&t2, sizeof(t2)) < 0)
+    return -1;
+
   cmostime(t1);
   cmostime(t2);
 
