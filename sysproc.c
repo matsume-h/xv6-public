@@ -105,22 +105,24 @@ sys_getdate(void) {
   return 0;
 }
 
-int
 sys_sleep_sec(void)
 {
   int n;
-  uint ticks0;
-  struct rtcdate *d0, *dp;
+  struct rtcdate *t1, *t2;
 
-  if(argint(0, &n) < 0)
+  cmostime(t1);
+  cmostime(t2);
+
+  if (argint(0, &n) < 0)
     return -1;
-  ticks0 = ticks;
-  while(ticks - ticks0 < n){
-    if(myproc()->killed){
+  while (cmp_rtc(t1, t2) < n)
+  {
+    if (myproc()->killed)
+    {
       return -1;
     }
     sleep(&ticks, &tickslock);
+    cmostime(t1);
   }
   return 0;
 }
-
