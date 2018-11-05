@@ -29,8 +29,10 @@ acquire(struct spinlock *lk)
     panic("acquire");
 
   // The xchg is atomic.
-  while(xchg(&lk->locked, 1) != 0)
-    ;
+  // while(xchg(&lk->locked, 1) != 0)
+  //  ;
+  while (lk->locked != 0)
+    lk->locked = 1;
 
   // Tell the C compiler and the processor to not move loads or stores
   // past this point, to ensure that the critical section's memory
@@ -123,4 +125,3 @@ popcli(void)
   if(mycpu()->ncli == 0 && mycpu()->intena)
     sti();
 }
-
