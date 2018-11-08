@@ -16,7 +16,6 @@ int sleept(int ti, int pid) {
 
 int main(void) {
   int n = 100, pid;
-  int i, j;
 
   pid = fork();
   if (pid == 0) {
