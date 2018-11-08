@@ -24,16 +24,16 @@ initlock(struct spinlock *lk, char *name)
 void
 acquire(struct spinlock *lk)
 {
-  pushcli(); // disable interrupts to avoid deadlock.
+  // pushcli(); // disable interrupts to avoid deadlock.
   if(holding(lk))
     panic("acquire");
 
   // The xchg is atomic.
-  // while(xchg(&lk->locked, 1) != 0)
-  //  ;
-  while (lk->locked != 0)
+   while(xchg(&lk->locked, 1) != 0)
     ;
-  lk->locked = 1;
+  //while (lk->locked != 0)
+  //  ;
+  //lk->locked = 1;
 
   // Tell the C compiler and the processor to not move loads or stores
   // past this point, to ensure that the critical section's memory
@@ -67,7 +67,7 @@ release(struct spinlock *lk)
   // not be atomic. A real OS would use C atomics here.
   asm volatile("movl $0, %0" : "+m" (lk->locked) : );
 
-  popcli();
+  // popcli();
 }
 
 // Record the current call stack in pcs[] by following the %ebp chain.

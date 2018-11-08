@@ -14,7 +14,7 @@ int main(void) {
     printf(1, "parent: %d\n", hoge());
     wait();
   } else {
-    printf(1, "parent: %d\n", hoge());
+    printf(1, "child: %d\n", hoge());
     exit();
   }
   exit();
