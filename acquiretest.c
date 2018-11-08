@@ -8,22 +8,13 @@ int foo = 0;
 
 int main(void) {
   int pid;
-  int i, j;
 
   pid = fork();
   if (pid == 0) {
-    for (i = 0; i < N; i++)
-    {
-      foo = hoge(foo);
-    }
-    printf(1, "parent: %d", foo);
+    printf(1, "parent: %d", hoge(foo));
     wait();
   } else {
-    for (j = 0; j < N; j++)
-    {
-      foo = hoge(foo);
-    }
-    printf(1, "parent: %d", foo);
+    printf(1, "parent: %d", hoge(foo));
     exit();
   }
   exit();

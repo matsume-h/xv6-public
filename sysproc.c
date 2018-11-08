@@ -99,11 +99,14 @@ sys_uptime(void)
 int sys_hoge(void) {
   int n;
 
+  int i;
+
   if (argint(0, &n) < 0)
     return -1;
-
-  acquire(&tickslock);
-  n++;
-  release(&tickslock);
+  for(i=0;i<1000;i++) {
+    acquire(&tickslock);
+    n++;
+    release(&tickslock);
+  }
   return n;
 }
