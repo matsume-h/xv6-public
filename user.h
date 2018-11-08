@@ -24,7 +24,7 @@ int getppid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int hoge(int num);
+int hoge(int);
 
 // ulib.c
 int stat(const char*, struct stat*);
