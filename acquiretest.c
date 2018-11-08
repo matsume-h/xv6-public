@@ -1,28 +1,35 @@
 #include "types.h"
 #include "stat.h"
 #include "user.h"
+#include "spinlock.h"
 
 #define N 1000
 
-int sleept(int ti, int pid) {
+int hoge = 10;
+struct spinlock *hogelock;
+
+int sleept(int pid) {
   int n = 10;
   while (n > 0)
   {
-    printf(1, "pid%d: %d: %d\n", pid, n--, uptime());
-    sleep(ti);
+    acquire(hogelock);
+    printf(1, "pid%d: %d: %d\n", pid, n--, hoge++);
+    release(hogelock);
+
   }
   exit();
 }
 
 int main(void) {
-  int n = 100, pid;
+  initlock(hogelock, "hoge");
+  int pid;
 
   pid = fork();
   if (pid == 0) {
-    sleept(n, pid);
+    sleept(pid);
     wait();
   } else {
-    sleept(n, pid);
+    sleept(pid);
     exit();
   }
   exit();
