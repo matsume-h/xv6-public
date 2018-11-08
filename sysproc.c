@@ -95,3 +95,12 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int sys_hoge(void) {
+  int n;
+
+  acquire(&tickslock);
+  n++;
+  release(&tickslock);
+  return n;
+}
