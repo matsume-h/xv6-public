@@ -4,17 +4,17 @@
 
 #define N 1000
 
-int foo = 0;
+// int foo = 0;
 
 int main(void) {
   int pid;
 
   pid = fork();
   if (pid == 0) {
-    printf(1, "parent: %d", hoge(foo));
+    printf(1, "parent: %d\n", hoge());
     wait();
   } else {
-    printf(1, "parent: %d", hoge(foo));
+    printf(1, "parent: %d\n", hoge());
     exit();
   }
   exit();

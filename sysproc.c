@@ -7,6 +7,8 @@
 #include "mmu.h"
 #include "proc.h"
 
+int huhu = 0;
+
 int
 sys_fork(void)
 {
@@ -97,16 +99,13 @@ sys_uptime(void)
 }
 
 int sys_hoge(void) {
-  int n;
 
   int i;
 
-  if (argint(0, &n) < 0)
-    return -1;
   for(i=0;i<1000;i++) {
     acquire(&tickslock);
-    n++;
+    huhu++;
     release(&tickslock);
   }
-  return n;
+  return huhu;
 }
